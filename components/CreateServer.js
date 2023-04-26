@@ -1,13 +1,24 @@
 import { useState } from 'react';
-import io from 'socket.io-client';
-
-const socket = io();
+import socket from './socketInstance';
 
 export default function CreateServer() {
 const [code, setCode] = useState('');
-socket.on('redirect-to-chat', () => {
-  window.location.href = '/chat';
-});
+
+useEffect(() => {
+  const redirectToChat = () => {
+    console.log('Received redirect-to-chat event');
+    if (code) {
+      window.location.href = '/chat';
+    }
+  };
+
+  socket.on('redirect-to-chat', redirectToChat);
+
+  return () => {
+    socket.off('redirect-to-chat', redirectToChat);
+  };
+}, [code]);
+
 const handleSubmit = async (event) => {
     event.preventDefault();
     const response = await fetch('/api/chat', {
@@ -15,15 +26,14 @@ const handleSubmit = async (event) => {
     headers: {
         'Content-Type': 'application/json'
     }, body: JSON.stringify({
-        player: 1,
     })
     });
     const data = await response.json();
     console.log(data)
     setCode(data.id);
-    
-  }
+    socket.emit('join-room', data.id);
 
+  }
   return (
     <form onSubmit={handleSubmit}>
       <button type="submit">Create Game</button>

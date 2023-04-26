@@ -17,8 +17,9 @@ app.prepare().then(() => {
   server.use(express.json());
 
   server.post('/api/chat', (req, res) => {
-    const id = chat.createChatInstance();
+    const id = chat.createChatInstance(io);
     res.status(201).json({ id });
+    
   });
 
   const httpServer = http.createServer(server);

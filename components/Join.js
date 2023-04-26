@@ -1,12 +1,9 @@
 import { useState, useEffect } from 'react';
 import styles from '../styles/JoinServer.module.css';
-import io from 'socket.io-client';
-
-const socket = io();
+import socket from './socketInstance';
 
 export default function JoinServer() {
   const [roomId, setRoomId] = useState('');
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     const response = await fetch('/api/chat/join', {
@@ -18,7 +15,6 @@ export default function JoinServer() {
         roomId,
       })
     });
-  
     const result = await response.json();
     if (result.success) {
       socket.emit('join-room', roomId);
@@ -27,11 +23,7 @@ export default function JoinServer() {
         window.location.href = '/chat';
       });
     }
-    // Handle other responses from the server
   }
-  
-  
-  
   return (
     <div className={styles.container}>
       <div className={styles.serverContainer}>

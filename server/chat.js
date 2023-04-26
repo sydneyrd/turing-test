@@ -5,15 +5,29 @@ const randomWords = require('random-words');
 
 const chatInstances = {};
 
-function createChatInstance() {
+// function createChatInstance(io) {
+//   const id = nanoid(4);
+//   chatInstances[id] = {
+//     id,
+//     messages: [],
+//     players: [`${randomWords()} ${randomWords()}`],
+//   };
+//   io.to(id).emit('redirect-to-chat');
+//   return id;
+  
+// }
+function createChatInstance(io, socket) {
   const id = nanoid(4);
   chatInstances[id] = {
     id,
     messages: [],
     players: [`${randomWords()} ${randomWords()}`],
   };
+  socket.join(id); // <- Add this line to join the room
+  io.to(id).emit('redirect-to-chat');
   return id;
 }
+
 
 function joinChatInstance(roomId, io) {
     const chatInstance = chatInstances[roomId];
