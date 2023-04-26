@@ -1,43 +1,42 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import socket from './socketInstance';
+import styles from '../styles/CreateServer.module.css';
 
 export default function CreateServer() {
-const [code, setCode] = useState('');
-
-useEffect(() => {
-  const redirectToChat = () => {
-    console.log('Received redirect-to-chat event');
-    if (code) {
-      window.location.href = '/chat';
-    }
-  };
-
-  socket.on('redirect-to-chat', redirectToChat);
-
-  return () => {
-    socket.off('redirect-to-chat', redirectToChat);
-  };
-}, [code]);
-
-const handleSubmit = async (event) => {
+  const [code, setCode] = useState('');
+  const codeRef = useRef(null);
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const response = await fetch('/api/chat', {
-    method: 'POST',
-    headers: {
+      method: 'POST',
+      headers: {
         'Content-Type': 'application/json'
-    }, body: JSON.stringify({
-    })
+      },
     });
     const data = await response.json();
-    console.log(data)
     setCode(data.id);
     socket.emit('join-room', data.id);
-
+    socket.once('redirect-to-chat', () => {
+      window.location.href = '/chat';
+    }
+    );
   }
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(codeRef.current.textContent);
+  }
+
   return (
-    <form onSubmit={handleSubmit}>
-      <button type="submit">Create Game</button>
-      {code && <p>Your game code is: {code}</p>}
+    <form className={styles.createServer} onSubmit={handleSubmit}>
+      <div className={styles.serverContainer}>
+        <button type="submit" className={styles.createButton}>Create Game</button>
+        {code && (
+          <div className={styles.codeContainer}>
+            <p ref={codeRef} className={styles.code}>{code}</p>
+            <button type="button" className={styles.copyButton} onClick={handleCopy}>Copy</button>
+          </div>
+        )}
+      </div>
     </form>
   );
 }

@@ -4,38 +4,23 @@ const { nanoid } = require('nanoid');
 const randomWords = require('random-words');
 
 const chatInstances = {};
-
-// function createChatInstance(io) {
-//   const id = nanoid(4);
-//   chatInstances[id] = {
-//     id,
-//     messages: [],
-//     players: [`${randomWords()} ${randomWords()}`],
-//   };
-//   io.to(id).emit('redirect-to-chat');
-//   return id;
-  
-// }
-function createChatInstance(io, socket) {
+function createChatInstance(io) {
   const id = nanoid(4);
   chatInstances[id] = {
     id,
     messages: [],
     players: [`${randomWords()} ${randomWords()}`],
   };
-  socket.join(id); // <- Add this line to join the room
   io.to(id).emit('redirect-to-chat');
   return id;
 }
-
-
 function joinChatInstance(roomId, io) {
     const chatInstance = chatInstances[roomId];
     if (!chatInstance) {
       return { error: 'Game session not found' };
     }
   
-    if (chatInstance.players.length === 5) {
+    if (chatInstance.players.length <= 6) {
       return { error: 'Game session is full' };
     }
   
@@ -48,8 +33,6 @@ function joinChatInstance(roomId, io) {
   
     return { success: true };
   }
-  
-
 module.exports = {
   chatInstances,
   createChatInstance,

@@ -16,7 +16,8 @@ function Chat() {
 
   React.useEffect(() => {
     socket.on('message', (data) => {
-      setMessages((prevMessages) => [...prevMessages, { role: 'assistant', message: data }]);
+      console.log(data)
+      setMessages((prevMessages) => [...prevMessages, {message: data}]);
     });
 
     return () => {
