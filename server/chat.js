@@ -1,0 +1,43 @@
+// server/chat.js
+
+const { nanoid } = require('nanoid');
+const randomWords = require('random-words');
+
+const chatInstances = {};
+
+function createChatInstance() {
+  const id = nanoid(4);
+  chatInstances[id] = {
+    id,
+    messages: [],
+    players: [`${randomWords()} ${randomWords()}`],
+  };
+  return id;
+}
+
+function joinChatInstance(roomId, io) {
+    const chatInstance = chatInstances[roomId];
+    if (!chatInstance) {
+      return { error: 'Game session not found' };
+    }
+  
+    if (chatInstance.players.length === 5) {
+      return { error: 'Game session is full' };
+    }
+  
+    const playerName = `${randomWords()} ${randomWords()}`;
+    chatInstance.players.push(playerName);
+  
+    if (chatInstance.players.length === 5) {
+      io.to(roomId).emit('redirect-to-chat');
+    }
+  
+    return { success: true };
+  }
+  
+
+module.exports = {
+  chatInstances,
+  createChatInstance,
+  joinChatInstance,
+};
