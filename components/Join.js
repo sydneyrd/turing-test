@@ -1,9 +1,13 @@
 import { useState, useEffect } from 'react';
 import styles from '../styles/JoinServer.module.css';
 import socket from './socketInstance';
+import LoadingPopup from './loading/Loading';
 
 export default function JoinServer() {
   const [roomId, setRoomId] = useState('');
+  const [waitingForPlayers, setWaitingForPlayers] = useState(false);
+  const [buttonClicked, setButtonClicked] = useState(false);
+
 
 
   useEffect(() => {
@@ -17,15 +21,17 @@ export default function JoinServer() {
     };
   });
   useEffect(() => {
-    if (roomId) {
-      // Send the client-ready event when the roomId changes
+    if (roomId && buttonClicked) {
+      // Send the client-ready event when the roomId changes and the button has been clicked
       socket.emit('client-ready', roomId, () => {
         console.log('Server acknowledged client-ready event');
       });
+      setWaitingForPlayers(true); // Display the waiting popup
     }
-  }, [roomId]);
+  }, [roomId, buttonClicked]);
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setButtonClicked(true);
     const response = await fetch('/api/chat/join', {
       method: 'POST',
       headers: {
@@ -56,7 +62,9 @@ export default function JoinServer() {
           <input type="text" value={roomId} onChange={(e) => setRoomId(e.target.value)} className={styles.input} />
         </label>
         <button type="submit" className={styles.button}>Join Chat</button>
-      </form></div>
+      </form>
+      {waitingForPlayers && <LoadingPopup />}
+      </div>
     </div>
   );
 }

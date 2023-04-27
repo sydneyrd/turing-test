@@ -1,0 +1,36 @@
+@import url("https://fonts.googleapis.com/css?family=Inconsolata:400,700");
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.container {
+  background-color: #ff7871;
+  border: none;
+  border-radius: 5px;
+  background: linear-gradient(-20deg, #ddd6f3 0%, #faaca8 100%, #faaca8 100%);
+  color: white;
+  font-family: "Inconsolata", monospace;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  height: 30vh;
+  width: 30vw;
+}
+
+.container p {
+  font-weight: 700;
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+}
