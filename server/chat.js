@@ -28,7 +28,9 @@ function joinChatInstance(roomId, io) {
     chatInstance.players.push(playerName);
   
     if (chatInstance.players.length === 5) {
-      io.to(roomId).emit('redirect-to-chat');
+      setTimeout(() => {
+        io.to(roomId).emit('redirect-to-chat');
+      }, 5000); // Redirect to chat after 5 seconds
     }
   
     return { success: true };

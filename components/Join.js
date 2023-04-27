@@ -4,6 +4,26 @@ import socket from './socketInstance';
 
 export default function JoinServer() {
   const [roomId, setRoomId] = useState('');
+
+
+  useEffect(() => {
+    socket.on('redirect-to-chat', () => {
+      console.log('Received redirect-to-chat event');
+      window.location.href = '/chat';
+    });
+
+    return () => {
+      socket.off('redirect-to-chat'); // Clean up the event listener when the component unmounts
+    };
+  });
+  useEffect(() => {
+    if (roomId) {
+      // Send the client-ready event when the roomId changes
+      socket.emit('client-ready', roomId, () => {
+        console.log('Server acknowledged client-ready event');
+      });
+    }
+  }, [roomId]);
   const handleSubmit = async (event) => {
     event.preventDefault();
     const response = await fetch('/api/chat/join', {
@@ -18,10 +38,13 @@ export default function JoinServer() {
     const result = await response.json();
     if (result.success) {
       socket.emit('join-room', roomId);
-      socket.once('redirect-to-chat', () => {
-        console.log('Received redirect-to-chat event');
-        window.location.href = '/chat';
-      });
+      // socket.emit('client-ready', roomId, () => {
+      //   console.log('Server acknowledged client-ready event');
+      // });
+      // socket.once('redirect-to-chat', () => {
+      //   console.log('Received redirect-to-chat event');
+      //   window.location.href = '/chat';
+      // });
     }
   }
   return (
