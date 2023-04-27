@@ -20,7 +20,7 @@ function joinChatInstance(roomId, io) {
       return { error: 'Game session not found' };
     }
   
-    if (chatInstance.players.length <= 6) {
+    if (chatInstance.players.length >= 5) {
       return { error: 'Game session is full' };
     }
   
