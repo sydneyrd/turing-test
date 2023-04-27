@@ -44,13 +44,6 @@ export default function JoinServer() {
     const result = await response.json();
     if (result.success) {
       socket.emit('join-room', roomId);
-      // socket.emit('client-ready', roomId, () => {
-      //   console.log('Server acknowledged client-ready event');
-      // });
-      // socket.once('redirect-to-chat', () => {
-      //   console.log('Received redirect-to-chat event');
-      //   window.location.href = '/chat';
-      // });
     }
   }
   return (

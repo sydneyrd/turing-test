@@ -5,6 +5,8 @@ import styles from '../styles/CreateServer.module.css';
 export default function CreateServer() {
   const [code, setCode] = useState('');
   const codeRef = useRef(null);
+  const [waitingForPlayers, setWaitingForPlayers] = useState(false);
+  const [buttonClicked, setButtonClicked] = useState(false);
   useEffect(() => {
     socket.once('redirect-to-chat', () => {
       console.log('Received redirect-to-chat event');
@@ -14,8 +16,18 @@ export default function CreateServer() {
       socket.off('redirect-to-chat');
     };
   });
+  useEffect(() => {
+    if (code && buttonClicked) {
+      // Send the client-ready event when the roomId changes and the button has been clicked
+      socket.emit('client-ready', code, () => {
+        console.log('Server acknowledged client-ready event');
+      });
+      setWaitingForPlayers(true); // Display the waiting popup
+    }
+  }, [code, buttonClicked]);
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setButtonClicked(true);
     const response = await fetch('/api/chat', {
       method: 'POST',
       headers: {
@@ -29,9 +41,9 @@ export default function CreateServer() {
     //   window.location.href = '/chat';
     // }
     // );
-    socket.emit('client-ready', data.id, () => {
-      console.log('Server acknowledged client-ready event');
-    });
+    // socket.emit('client-ready', data.id, () => {
+    //   console.log('Server acknowledged client-ready event');
+    // });
   }
 
   const handleCopy = () => {
