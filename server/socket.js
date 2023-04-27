@@ -11,6 +11,7 @@ module.exports = function (httpServer, chatInstances, io) {
     });
     socket.on('message', (message) => {
       console.log(`Received message: ${message}`);
+      console.log(chatInstances[data.roomId].player)
       io.emit('message', message);
     });
     // socket.on('send-message', (data) => {

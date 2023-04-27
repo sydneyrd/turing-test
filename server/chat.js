@@ -9,11 +9,11 @@ function createChatInstance(io) {
   chatInstances[id] = {
     id,
     messages: [],
-    players: [`${randomWords()} ${randomWords()}`],
+    players: [{player:`${randomWords()}${randomWords()}`}],
   };
   io.to(id).emit('redirect-to-chat');
-  return id;
-}
+  return {id: id, player: chatInstances[id].players[0]}};
+
 function joinChatInstance(roomId, io) {
     const chatInstance = chatInstances[roomId];
     if (!chatInstance) {
@@ -24,7 +24,7 @@ function joinChatInstance(roomId, io) {
       return { error: 'Game session is full' };
     }
   
-    const playerName = `${randomWords()} ${randomWords()}`;
+    const playerName = {player:`${randomWords()}${randomWords()}`};
     chatInstance.players.push(playerName);
   
     if (chatInstance.players.length === 5) {
@@ -33,7 +33,7 @@ function joinChatInstance(roomId, io) {
       }, 5000); // Redirect to chat after 5 seconds
     }
   
-    return { success: true };
+    return { success: true, player: playerName };
   }
 module.exports = {
   chatInstances,

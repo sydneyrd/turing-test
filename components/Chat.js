@@ -68,12 +68,12 @@ function MessageBubble(props) {
     >
        
         <div className={`${styles['chat-bubble']} ${messageClass}`}>
-          <div className={styles['assistant-avatar']}>
+          <div className={styles['assistant-avatar']}> player name here
             
           </div>
          </div>
         
-        <div className={`${styles['chat-bubble']} ${messageClass}`}>{props.message}</div>
+        <div className={`${styles['chat-bubble']} ${messageClass}`}> or player name here {props.message}</div>
       
     </div>
   );

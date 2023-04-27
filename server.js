@@ -18,7 +18,7 @@ app.prepare().then(() => {
 
   server.post('/api/chat', (req, res) => {
     const id = chat.createChatInstance(io);
-    res.status(201).json({ id });
+    res.status(201).json({ id:id.id, player: id.player });
     
   });
 
@@ -35,7 +35,7 @@ app.prepare().then(() => {
     if (result.error) {
       res.status(404).json({ error: result.error });
     } else {
-      res.status(200).json({ success: true });
+      res.status(200).json({ success: true, player: result.player });
     }
   });
 

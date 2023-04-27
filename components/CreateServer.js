@@ -37,13 +37,6 @@ export default function CreateServer() {
     const data = await response.json();
     setCode(data.id);
     socket.emit('join-room', data.id);
-    // socket.on('redirect-to-chat', () => {
-    //   window.location.href = '/chat';
-    // }
-    // );
-    // socket.emit('client-ready', data.id, () => {
-    //   console.log('Server acknowledged client-ready event');
-    // });
   }
 
   const handleCopy = () => {
