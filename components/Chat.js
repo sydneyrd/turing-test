@@ -72,24 +72,23 @@ function Chat() {
 }
 
 function MessageBubble(props) {
-
   return (
-    <div className={`${styles['message-container']}-${styles[`${props.messageClass}-message-container`]}`}
+    <div className={`${styles[`${props.messageClass}-message-container`]}`}
     >
         {props.messageClass === 'assistant' ?
-        <div className={`${styles['chat-bubble']}-${props.messageClass}`}>
-          <div className={styles['assistant-avatar']}> {props.player} player name here {props.message}
+        <div className={`${styles['chat-bubble']}-${props.messageClass}`}> {props.message}
+          <div className={styles['assistant-avatar']}> {props.player} 
             
           </div>
          </div> : ''}
       {props.messageClass === 'user' ?
-        
-        <div className={`${styles['chat-bubble']}-${props.messageClass}`}> {props.player} or player name here {props.message}</div> : ''}
+      
+        <div className={`${styles['chat-bubble']}-${props.messageClass}`}> {props.message}
+        <div className={styles['user-avatar']}>{props.player} </div> </div> : ''}
       
     </div>
   );
 }
-
 function Header(props) {
   return (
     <div className={styles.header}>
@@ -100,7 +99,6 @@ function Header(props) {
     </div>
   );
 }
-
 function ChatHeader() {
   return (
     <div className={styles['chat-header']}>

@@ -6,37 +6,22 @@
 .chat h2 {
   font-size: 4.5vh;
 }
-
- /* {
-  width: 100vw;
-  height: 100vh;
-  margin: 0;
-  overflow: hidden;
-} */
-
-.chat body {
-  font-family: "Inconsolata", monospace;
-  background: linear-gradient(-20deg, #ddd6f3 0%, #faaca8 100%, #faaca8 100%);
-  color: white;
-  background-attachment: fixed;
-}
-
-
 .container {
   position: absolute;
+  font-family: "Inconsolata", monospace;
+  background: linear-gradient(-20deg, #ddd6f3 0%, #faaca8 100%, #faaca8 100%);
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-}
-
-.container {
+  color: white;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   align-items: stretch;
   padding: 5vw 10vw 5vw 10vw;
 }
+
 .container .header {
   -webkit-animation: fade 1s ease 1.5s both;
           animation: fade 1s ease 1.5s both;
@@ -48,14 +33,7 @@
   text-shadow: 1px 2px 0px rgba(244, 59, 71, 0.4), 3px 2px 0px rgba(244, 59, 71, 0.4), 2px 3px 0px rgba(244, 59, 71, 0.4);
   position: relative;
 }
-.container .header .header-img {
-  position: absolute;
-  top: -4rem;
-  right: 10vw;
-  z-index: -1;
-  width: 12rem;
-  height: 12rem;
-}
+
 .container .chat-container {
   -webkit-animation: fade 0.5s ease 0.2s both;
           animation: fade 0.5s ease 0.2s both;
@@ -109,6 +87,7 @@
   flex-direction: column;
   /* overflow-y: scroll; */
   overflow-y: auto; /* Add this line */
+
 }
 .container .chat-container .msg-container .user-message-container {
   align-self: flex-end;
@@ -148,7 +127,7 @@
           animation: pop 0.3s cubic-bezier(0.36, -0.04, 0.15, 1.64) forwards;
   will-change: transform;
 }
-.container .chat-container .msg-container .chat-bubble.user {
+.container .chat-container .msg-container .user-message-container.chat-bubble-user {
   float: right;
   border-top-right-radius: 0;
   background: #453a94;
@@ -156,7 +135,7 @@
   transform-origin: top right;
   overflow-y: auto; /* Add this line */
 }
-.container .chat-container .msg-container .chat-bubble.assistant {
+.container .chat-container .msg-container .assistant-message-container .chat-bubble-assistant {
   border-top-left-radius: 0;
   background: white;
   color: #7028e4;
@@ -211,7 +190,6 @@
   content: "";
   width: 0.5rem;
   height: 0.5rem;
-  border: 5px solid white;
   border-left: 0;
   border-bottom: 0;
   transform: rotate(45deg);
@@ -304,40 +282,6 @@
   }
 }
 
-.balls {
-  width: 3em;
-  height: 1em;
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.balls div {
-  width: 0.5em;
-  height: 0.5em;
-  border-radius: 50%;
-  background-color: #fc2f70;
-  transform: translateY(-100%);
-  animation: wave 0.8s ease-in-out alternate infinite;
-}
-
-.balls div:nth-of-type(1) {
-  animation-delay: -0.4s;
-}
-
-.balls div:nth-of-type(2) {
-  animation-delay: -0.2s;
-}
-
-@keyframes wave {
-  from {
-    transform: translateY(-100%);
-  }
-  to {
-    transform: translateY(100%);
-  }
-}
 .container .chat-container .msg-container::-webkit-scrollbar {
   width: 8px;
 }
