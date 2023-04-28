@@ -1,14 +1,20 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import styles from '../styles/JoinServer.module.css';
-import socket from './socketInstance';
+// import socket from './socketInstance';
 import LoadingPopup from './loading/Loading';
+import { useSessionStorage } from 'react-use';
+import { SocketContext } from '../components/socketInstance';
+
+
 
 export default function JoinServer() {
   const [roomId, setRoomId] = useState('');
   const [waitingForPlayers, setWaitingForPlayers] = useState(false);
   const [buttonClicked, setButtonClicked] = useState(false);
+  const [player, setPlayer] = useSessionStorage('player', '');
+  const [sessionRoomId , setSessionRoomId] = useSessionStorage('roomId', '');
 
-
+  const socket= useContext(SocketContext);
 
   useEffect(() => {
     socket.on('redirect-to-chat', () => {
@@ -44,6 +50,8 @@ export default function JoinServer() {
     const result = await response.json();
     if (result.success) {
       socket.emit('join-room', roomId);
+      setPlayer(result.player);
+      setSessionRoomId(roomId);
     }
   }
   return (

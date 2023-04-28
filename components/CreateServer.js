@@ -1,12 +1,21 @@
 import { useState, useRef, useEffect } from 'react';
-import socket from './socketInstance';
+// import socket from './socketInstance';
 import styles from '../styles/CreateServer.module.css';
+import { useSessionStorage } from 'react-use';
+import { useContext } from 'react';
+import { SocketContext } from '../components/socketInstance';
 
 export default function CreateServer() {
   const [code, setCode] = useState('');
   const codeRef = useRef(null);
   const [waitingForPlayers, setWaitingForPlayers] = useState(false);
   const [buttonClicked, setButtonClicked] = useState(false);
+  const [player, setPlayer] = useSessionStorage('player', '');
+  const [sessionRoomId , setSessionRoomId] = useSessionStorage('roomId', '');
+  
+  const socket = useContext(SocketContext);
+  
+
   useEffect(() => {
     socket.once('redirect-to-chat', () => {
       console.log('Received redirect-to-chat event');
@@ -37,6 +46,8 @@ export default function CreateServer() {
     const data = await response.json();
     setCode(data.id);
     socket.emit('join-room', data.id);
+    setPlayer(data.player);
+    setSessionRoomId(data.id);
   }
 
   const handleCopy = () => {

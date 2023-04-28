@@ -3,6 +3,10 @@ import JoinServer from '../components/Join';
 
 
 export default function JoinPage() {  
+
+
+// export default socket;
+
   return (
     <JoinServer />
   );
