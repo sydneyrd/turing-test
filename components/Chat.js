@@ -10,6 +10,7 @@ function Chat() {
   const [inputValue, setInputValue] = React.useState('');
   const [player, setPlayer] = useSessionStorage('player');
   const [roomId, setRoomId] = useSessionStorage('roomId');
+  const chatContainerRef = React.useRef(null);
   const socket = React.useContext(SocketContext);
 
   React.useEffect(() => {
@@ -19,6 +20,12 @@ function Chat() {
     }
   }, [roomId]);
 
+  React.useEffect(() => {
+    // Scroll to the bottom of the element when myState updates
+    if (chatContainerRef ) {chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight}
+    else {console.log('no ref')}
+    
+  }, [messages]);
   const handleSubmit = (event) => {
     event.preventDefault();
     socket.emit('send-message', {roomId: roomId, player: player.player, message: inputValue});
@@ -54,8 +61,8 @@ function Chat() {
     <div className={styles.container}>
       <Header headerText={"hello"} pText={"howdy do"} p2Text={"put somethin here mebbe"} />
       <div className={styles['chat-container']}>
-        <ChatHeader />
-        <div className={styles['msg-container']}>{showMessages()}</div>
+        {/* <ChatHeader /> */}
+        <div className={styles['msg-container']} ref={chatContainerRef}>{showMessages()}</div>
         <form onSubmit={handleSubmit} className={styles['input-container']}>
           <input
             id="chat"
@@ -99,14 +106,14 @@ function Header(props) {
     </div>
   );
 }
-function ChatHeader() {
-  return (
-    <div className={styles['chat-header']}>
-      <div className={styles.dot} />
-      <div className={styles.dot} />
-      <div className={styles.dot} />
-    </div>
-  );
-}
+// function ChatHeader() {
+//   return (
+//     <div className={styles['chat-header']}>
+//       <div className={styles.dot} />
+//       <div className={styles.dot} />
+//       <div className={styles.dot} />
+//     </div>
+//   );
+// }
 
 export default Chat;

@@ -44,7 +44,6 @@
 .container .chat-container {
   -webkit-animation: fade 0.5s ease 0.2s both;
           animation: fade 0.5s ease 0.2s both;
-  transform: perspective(100vh) rotateY(-7deg);
   border-radius: 12px;
   box-shadow: 10px 5px 40px 10px rgba(244, 59, 71, 0.4);
   flex: 1 1 70vh;
@@ -98,19 +97,43 @@
 }
 .container .chat-container .msg-container .user-message-container {
   align-self: flex-end;
+  color:solid #453a94;
+  text-align: right;
+  margin: .25em;
+flex: 1, 1, auto;
+display: flex;
+color: rgba(244, 59, 71, 0.4);
+border: 4px solid #453a94;
+width: 50%;
+border-radius: 20px 20px 0px 20px;
 }
 .container .chat-container .msg-container .assistant-message-container {
   flex: none;
   display: flex;
+  color:rgba(244, 59, 71, 0.4);
+  flex: none;
+  margin:.25em;
+display: flex;
+border: 4px solid #453a94;
+max-width: 50%;
+border-radius: 0 20px 20px 20px;
 }
 .container .chat-container .msg-container .assistant-message-container .assistant-avatar {
- 
+ color:white;
   background-position: center;
   border-radius: 50%;
   width: 52px;
   height: 52px;
   margin-right: 1vw;
 }
+.container .chat-container .msg-container .user-message-container .user-avatar {
+  color:white;
+   background-position: center;
+   border-radius: 50%;
+   width: 52px;
+   height: 52px;
+   margin-right: 1vw;
+ }
 .container .chat-container .msg-container .assistant-message-container:first-child .chat-bubble {
   -webkit-animation: pop 0.3s cubic-bezier(0.36, -0.04, 0.15, 1.64) 0.9s both;
           animation: pop 0.3s cubic-bezier(0.36, -0.04, 0.15, 1.64) 0.9s both;
@@ -172,6 +195,11 @@
   color:#453a94;
   font-size: 1rem;
   padding: 1.5rem;
+}
+
+.container .chat-container .input-container input:focus{
+  outline:none;
+  border:none;
 }
 .container .chat-container .input-container *::-moz-placeholder {
   color: #db0035;
