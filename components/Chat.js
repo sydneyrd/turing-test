@@ -12,7 +12,8 @@ function Chat() {
   const [roomId, setRoomId] = useSessionStorage('roomId');
   const chatContainerRef = React.useRef(null);
   const socket = React.useContext(SocketContext);
-
+console.log(player)
+console.log('messages', messages)
   React.useEffect(() => {
     if (roomId) {
       console.log('Joining room')
@@ -28,7 +29,7 @@ function Chat() {
   }, [messages]);
   const handleSubmit = (event) => {
     event.preventDefault();
-    socket.emit('send-message', {roomId: roomId, player: player.player, message: inputValue});
+    socket.emit('send-message', {roomId: roomId, player: player, message: inputValue});
     setInputValue('');
   };
 
@@ -42,7 +43,7 @@ function Chat() {
   const showMessages = () => {
     
     return messages.map((message, index) => {
-      let messageClass = player.player === message.player ? 'user' : 'assistant';
+      let messageClass = player === message.player ? 'user' : 'assistant';
     return  <MessageBubble
       messageClass={messageClass}
         key={index}
@@ -106,14 +107,6 @@ function Header(props) {
     </div>
   );
 }
-// function ChatHeader() {
-//   return (
-//     <div className={styles['chat-header']}>
-//       <div className={styles.dot} />
-//       <div className={styles.dot} />
-//       <div className={styles.dot} />
-//     </div>
-//   );
-// }
+
 
 export default Chat;
