@@ -22,7 +22,6 @@ class Game {
     getAIPlayer() {
         return this.players.filter((player) => player.isAI);
       }
-
       
     addPlayerMessage(player, message) {
         console.log("player", player)

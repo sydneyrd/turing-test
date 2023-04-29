@@ -1,8 +1,9 @@
 // import socket from "./socketInstance";
 import React from "react";
-import styles from './Chat.module.css';
+import styles from '../../styles/Chat.module.css';
+
 import {useSessionStorage} from 'react-use';
-import { SocketContext } from '../components/socketInstance';
+import { SocketContext } from '../socketInstance';
 
 
 function Chat() {

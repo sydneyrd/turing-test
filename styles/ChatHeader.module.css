@@ -1,0 +1,24 @@
+@import url("https://fonts.googleapis.com/css?family=Inconsolata:400,700");
+
+.chat-players-header {
+    display: flex;
+    font-family: "Inconsolata", monospace;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    -webkit-animation: fade 1s ease 1.5s both;
+    animation: fade 1s ease 1.5s both;
+    z-index: 20;
+    color: white;
+    flex: 1 0 20vw;
+    margin: 0 5vw 5vw 0;
+    margin-top: auto;
+    text-shadow: 1px 2px 0px rgba(244, 59, 71, 0.4), 3px 2px 0px rgba(244, 59, 71, 0.4), 2px 3px 0px rgba(244, 59, 71, 0.4);
+    position: fixed;
+  }
+  
+  .chat-players-header span {
+    display: inline-block;
+    margin: 0 5px;
+    white-space: nowrap; /* Prevents the text from wrapping to the next line */
+  }
+  
