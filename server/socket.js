@@ -16,9 +16,11 @@ module.exports = function (httpServer, chatInstances, io) {
           game.addPlayerMessage(data.player, data.message);
           let messages = game.messages;
           // Trigger AI response
-          const aiPlayer = game.getAIPlayer();
-          if (aiPlayer) {
-            await aiPlayer.fetchResponse(game, messages);
+          const aiPlayers = game.getAIPlayer();
+          if (aiPlayers) {
+            for (const aiPlayer of aiPlayers) {
+              await aiPlayer.fetchResponse(game, messages);
+            }
           }
     
           io.to(data.roomId).emit('messages', game.messages);

@@ -20,7 +20,7 @@ class Game {
         return this.players.length >= 5;
     }
     getAIPlayer() {
-        return this.players.find((player) => player.isAI);
+        return this.players.filter((player) => player.isAI);
       }
 
       

@@ -1,7 +1,6 @@
 require('node-fetch');
 const { systemMessage } = require("./managers");
 
-
 async function fetchGPTData  (name, messages){
     const key = process.env.OPENAI_KEY;
     try {
