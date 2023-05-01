@@ -71,7 +71,8 @@
   background: rgba(255, 255, 255, 0.2);
   padding: 15px 15px 0 15px;
   flex: auto;
-  font-size:small;
+  font-size:x-small;
+  border-radius: 12px 000;
   border: 4px solid #453a94;
   display: flex;
   flex-direction: column;
@@ -82,6 +83,7 @@
 .container .chat-container .msg-container .user-message-container {
   align-self: flex-end;
   color:solid #453a94;
+  align-items: flex-end;
   text-align: right;
   margin: .25em;
 flex: 1, 1, auto;
@@ -108,8 +110,7 @@ border-radius: 0 20px 20px 20px;
   border-radius: 50%;
   width: 52px;
   font-size:smaller;
-  height: 52px;
-  margin-right: 1vw;
+  margin:.5em;
 }
 .container .chat-container .msg-container .user-message-container .user-avatar {
   color:white;
@@ -117,8 +118,7 @@ border-radius: 0 20px 20px 20px;
    font-size:smaller;
    border-radius: 50%;
    width: 52px;
-   height: 52px;
-   margin-right: 1vw;
+   margin:.5em;
  }
 .container .chat-container .msg-container .assistant-message-container:first-child .chat-bubble {
   -webkit-animation: pop 0.3s cubic-bezier(0.36, -0.04, 0.15, 1.64) 0.9s both;
