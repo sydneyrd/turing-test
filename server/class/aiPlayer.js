@@ -11,6 +11,7 @@ class AIPlayer extends IPlayer {
     if (response) {
       game.addPlayerMessage(this.name, response );
     }
+    return response
   }
 }
 

@@ -8,7 +8,7 @@ const chatInstances = {};
 
 function createChatInstance(io) {
   const id = nanoid(4);
-  const game = new Game(id);
+  const game = new Game(id, io);
   chatInstances[id] = game;
   io.to(id).emit('redirect-to-chat');
   return {id: id, player: game.players[0].name};
