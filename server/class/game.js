@@ -43,25 +43,6 @@ class Game {
             [array[i], array[j]] = [array[j], array[i]];
         }
     }
-
-    // async handleAIResponses() {
-    //     const aiPlayers = this.getAIPlayers();
-    //     if (!aiPlayers) return;
-
-    //     // Shuffle AI players and select a random number of them to respond
-    //     this.shuffleArray(aiPlayers);
-    //     const numberOfRespondingPlayers = Math.floor(Math.random() * (aiPlayers.length + 1));
-
-    //     // Send updated messages to the AI API at dynamic intervals based on response length
-    //     for (const aiPlayer of aiPlayers.slice(0, numberOfRespondingPlayers)) {
-    //         const response = await aiPlayer.fetchResponse(this, this.messages);
-    //         const delay = this.getDynamicDelay(response);
-    //         setTimeout(() => {
-    //             //is this being received?  ony displaying new meesages on new player message
-    //             this.io.to(this.id).emit('messages', this.messages);
-    //         }, delay);
-    //     }
-    // }
     async handleAIResponses() {
         const aiPlayers = this.getAIPlayers();
         if (!aiPlayers) return;

@@ -1,14 +1,16 @@
 require('node-fetch');
-const { systemMessage } = require("./managers");
+// const { systemMessage } = require("./managers");
 
-async function fetchGPTData  (name, messages){
+async function fetchGPTData  (personality, messages){
     const key = process.env.OPENAI_KEY;
     try {
         // i need to take the messages array and change the key 'message' to 'content' before sending the new array
         const message = messages.map(message => {
             return {content: message.message, role: 'user'}
         })
-        new_array = systemMessage(name).concat(message) //double check this
+
+
+        new_array = personality.message.concat(message) //double check this
       const response = await fetch('https://api.openai.com/v1/chat/completions', {
         method: 'POST',
         headers: {
@@ -16,10 +18,10 @@ async function fetchGPTData  (name, messages){
             Authorization: `Bearer ${key}`,
         },
         body: JSON.stringify({
-            model: "gpt-3.5-turbo",
+            model: "gpt-4",
             messages: new_array,
-            temperature: 1.2,
-            top_p: 1,
+            temperature: personality.temperature,
+            top_p: personality.top_p,
         }),
         });
         console.log(response)
