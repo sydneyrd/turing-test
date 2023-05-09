@@ -3,12 +3,20 @@ const randomWords = require('random-words');
 const Player = require('./player');
 const IPlayer = require('./iPlayer');
 const AIPlayer = require('./aiPlayer');
+const { fetchQuestions } = require('../my_http/questions');
 class Game {
     constructor(id, io) {
         this.id = id;
         this.io = io;
         this.messages = [];
-        this.players = [new Player(`${randomWords()}${randomWords()}`)]
+        this.players = [new Player(`${randomWords()}${randomWords()}`)];
+        this.questions = [];
+        this.getQuestions();
+    }
+   async getQuestions() {
+    let questions = await fetchQuestions();
+    console.log("questions", questions);
+    this.questions = questions;
     }
     addPlayer(player) {
         if (player instanceof IPlayer) {
