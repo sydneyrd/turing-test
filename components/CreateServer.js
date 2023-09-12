@@ -1,33 +1,70 @@
-import { useState } from 'react';
-import io from 'socket.io-client';
-
-const socket = io();
+import { useState, useRef, useEffect } from 'react';
+// import socket from './socketInstance';
+import styles from '../styles/CreateServer.module.css';
+import { useSessionStorage } from 'react-use';
+import { useContext } from 'react';
+import { SocketContext } from '../components/socketInstance';
 
 export default function CreateServer() {
-const [code, setCode] = useState('');
-socket.on('redirect-to-chat', () => {
-  window.location.href = '/chat';
-});
-const handleSubmit = async (event) => {
+  const [code, setCode] = useState('');
+  const codeRef = useRef(null);
+  const [waitingForPlayers, setWaitingForPlayers] = useState(false);
+  const [buttonClicked, setButtonClicked] = useState(false);
+  const [player, setPlayer] = useSessionStorage('player', '');
+  const [sessionRoomId , setSessionRoomId] = useSessionStorage('roomId', '');
+  
+  const socket = useContext(SocketContext);
+  
+
+  useEffect(() => {
+    socket.once('redirect-to-chat', () => {
+      console.log('Received redirect-to-chat event');
+      window.location.href = '/chat';
+    });
+    return () => {
+      socket.off('redirect-to-chat');
+    };
+  });
+  useEffect(() => {
+    if (code && buttonClicked) {
+      // Send the client-ready event when the roomId changes and the button has been clicked
+      socket.emit('client-ready', code, () => {
+        console.log('Server acknowledged client-ready event');
+      });
+      setWaitingForPlayers(true); // Display the waiting popup
+    }
+  }, [code, buttonClicked]);
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    setButtonClicked(true);
     const response = await fetch('/api/chat', {
-    method: 'POST',
-    headers: {
+      method: 'POST',
+      headers: {
         'Content-Type': 'application/json'
-    }, body: JSON.stringify({
-        player: 1,
-    })
+      },
     });
     const data = await response.json();
-    console.log(data)
     setCode(data.id);
-    
+    socket.emit('join-room', data.id);
+    setPlayer(data.player);
+    setSessionRoomId(data.id);
+  }
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(codeRef.current.textContent);
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <button type="submit">Create Game</button>
-      {code && <p>Your game code is: {code}</p>}
+    <form className={styles.createServer} onSubmit={handleSubmit}>
+      <div className={styles.serverContainer}>
+        <button type="submit" className={styles.createButton}>Create Game</button>
+        {code && (
+          <div className={styles.codeContainer}>
+            <p ref={codeRef} className={styles.code}>{code}</p>
+            <button type="button" className={styles.copyButton} onClick={handleCopy}>Copy</button>
+          </div>
+        )}
+      </div>
     </form>
   );
 }

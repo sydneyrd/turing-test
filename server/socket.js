@@ -1,7 +1,4 @@
-const socketio = require('socket.io');
-
 module.exports = function (httpServer, chatInstances, io) {
-  const io = socketio(httpServer);
 
   io.on('connection', (socket) => {
     console.log(`Socket connected: ${socket.id}`);
@@ -11,15 +8,22 @@ module.exports = function (httpServer, chatInstances, io) {
     });
     socket.on('join-room', (roomId) => {
       socket.join(roomId)
+      console.log(`Socket ${socket.id} joining ${roomId}`);
+    });
+    socket.on('send-message', async (data) => {
+      console.log(data);
+      const game = chatInstances[data.roomId];
+      game.addPlayerMessage(data.player, data.message);
+      io.to(data.roomId).emit('messages', game.messages);
+      game.handleAIResponses();
+    });
+    socket.on('get-players', (roomId) => {
+      const game = chatInstances[roomId]; // Assuming roomId is available in the scope
+      if (game) {
+        const playerData = game.players.map(player => ({ name: player.name }));
+        socket.emit('players', playerData);
+      }
+    });
     
-    });
-    socket.on('message', (message) => {
-      console.log(`Received message: ${message}`);
-      io.emit('message', message);
-    });
-    socket.on('send-message', (data) => {
-      chatInstances[data.roomId].messages.push({ playerId: data.playerId, message: data.message });
-      io.to(data.roomId).emit('message', chatInstances[data.roomId].messages);
-    });
   });
 };

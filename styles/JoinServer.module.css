@@ -1,7 +1,9 @@
 @import url("https://fonts.googleapis.com/css?family=Inconsolata:400,700");
 
+.body{
+  background: linear-gradient(-20deg, #ddd6f3 0%, #faaca8 100%, #faaca8 100%);
+}
 .container {
-  margin: 2vh;
   background: #ff7871;
   border: none;
   border-radius: 5px;
@@ -32,9 +34,21 @@
   align-self:center;
   height:30vh;
     width:30vw;
+    box-shadow: 3px 3px #db0035;
 
 }
+.input{
+  box-shadow: 3px 3px #db0035;
+  border-radius: 12px 12px 12px 12px;
+  border: 4px solid #453a94;
 
+}
+.label{
+  display: flex;
+flex-direction: column;
+margin:1em;
+font-size:x-large;
+}
 .button {
   margin-bottom: 20px;
   background-color: #453a94;
@@ -44,6 +58,7 @@
   padding: 10px 20px;
   font-size: 1rem;
   cursor: pointer;
+  box-shadow: 3px 3px #db0035;
 }
 
 .form {
@@ -52,6 +67,7 @@
   display: flex;
   align-items: center;
   flex-direction:column;
+  
 }
 
 
